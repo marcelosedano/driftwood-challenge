@@ -6,13 +6,6 @@ import { MapView } from 'expo';
 import AutocompleteSearchBar from './AutocompleteSearchBar';
 import CustomCallout from './CustomCallout';
 
-const DEFAULT_REGION = {
-  latitude: 34.109520,
-  longitude: -118.330652,
-  latitudeDelta: 0.0922,
-  longitudeDelta: 0.0421,
-};
-
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -38,20 +31,22 @@ class App extends React.Component {
   }
 
   render() {
-    const { selectedMarker, selectMarker } = this.props;
-
-    const currentRegion = selectedMarker
-      ? { ...DEFAULT_REGION, ...selectedMarker.coordinate } : DEFAULT_REGION;
+    // this.mapView && this.mapView._root.animateToRegion(this.props.currentRegion, 1000);
 
     return (
       <View style={styles.container}>
 
         <View style={styles.searchContainer}>
-          <AutocompleteSearchBar onPress={selectMarker} />
+          <AutocompleteSearchBar onPress={this.props.selectMarker} />
         </View>
 
         <View style={styles.mapContainer}>
-          <ClusteredMapView style={{ flex: 1 }} showsUserLocation={true} region={currentRegion}>
+          <ClusteredMapView
+            style={{ flex: 1 }}
+            ref={r => this.mapView = r}
+            region={this.props.currentRegion}
+            onRegionChangeComplete={this.props.setRegion}
+          >
             {this.renderMarkers()}
           </ClusteredMapView>
         </View>
@@ -77,10 +72,12 @@ const styles = StyleSheet.create({
 });
 
 App.propTypes = {
+  currentRegion: PropTypes.object,
   selectedMarker: PropTypes.object,
   savedMarkers: PropTypes.array.isRequired,
   selectMarker: PropTypes.func.isRequired,
   saveMarker: PropTypes.func.isRequired,
+  setRegion: PropTypes.func.isRequired,
 };
 
 export default App;

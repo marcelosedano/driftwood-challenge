@@ -8,10 +8,12 @@ import * as actions from './store/actions';
 import App from './components/App';
 
 const mapStateToProps = state => ({
+  currentRegion: state.currentRegion,
   selectedMarker: state.selectedMarker,
   savedMarkers: state.savedMarkers,
 });
 const mapDispatchToProps = {
+  setRegion: actions.setRegion,
   selectMarker: actions.selectMarker,
   saveMarker: actions.saveMarker,
 };

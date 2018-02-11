@@ -1,16 +1,25 @@
 import * as types from './actionTypes';
 
 const selectMarker = placeDetails => {
-  const marker = {
-    name: placeDetails.name,
-    isSaved: false,
-    coordinate: {
-      latitude: placeDetails.geometry.location.lat,
-      longitude: placeDetails.geometry.location.lng,
+  const { location, viewport } = placeDetails.geometry;
+  const payload = {
+    marker: {
+      name: placeDetails.name,
+      isSaved: false,
+      coordinate: {
+        latitude: location.lat,
+        longitude: location.lng,
+      }
+    },
+    region: {
+      latitude: location.lat,
+      longitude: location.lng,
+      latitudeDelta: viewport.northeast.lat - viewport.southwest.lat,
+      longitudeDelta: viewport.northeast.lng - viewport.southwest.lng,
     }
   };
 
-  return { type: types.SELECT_MARKER, marker };
+  return { type: types.SELECT_MARKER, payload };
 };
 
 const saveMarker = marker => ({
@@ -21,7 +30,13 @@ const saveMarker = marker => ({
   }
 });
 
+const setRegion = region => ({
+  type: types.SET_REGION,
+  region,
+});
+
 export {
   selectMarker,
   saveMarker,
+  setRegion,
 };

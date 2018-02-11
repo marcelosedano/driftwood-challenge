@@ -8,19 +8,37 @@ describe('Actions', () => {
       geometry: {
         location: {
           lat: 34.112562,
-          lng: -118.339106,
+          lng: -118.339106
+        },
+        viewport: {
+          northeast: {
+            lat: 20,
+            lng: -25
+          },
+          southwest: {
+            lat: 15,
+            lng: -10
+          },
         }
       }
     };
     const expectedAction = {
       type: types.SELECT_MARKER,
-      marker: {
-        name: 'Hollywood Bowl',
-        isSaved: false,
-        coordinate: {
+      payload: {
+        marker: {
+          name: 'Hollywood Bowl',
+          isSaved: false,
+          coordinate: {
+            latitude: 34.112562,
+            longitude: -118.339106,
+          }
+        },
+        region: {
           latitude: 34.112562,
           longitude: -118.339106,
-        }
+          latitudeDelta: 5,
+          longitudeDelta: -15,
+        },
       }
     };
 
@@ -33,7 +51,7 @@ describe('Actions', () => {
       isSaved: false,
       coordinate: {
         latitude: 34.112562,
-        longitude: -118.339106,
+        longitude: -118.339106
       }
     };
     const expectedAction = {
@@ -49,5 +67,25 @@ describe('Actions', () => {
     };
 
     expect(actions.saveMarker(marker)).toEqual(expectedAction);
+  });
+
+  it('should create an action to set the region', () => {
+    const region = {
+      latitude: 34.112562,
+      longitude: -118.339106,
+      latitudeDelta: 5,
+      longitudeDelta: -15,
+    };
+    const expectedAction = {
+      type: types.SET_REGION,
+      region: {
+        latitude: 34.112562,
+        longitude: -118.339106,
+        latitudeDelta: 5,
+        longitudeDelta: -15,
+      }
+    };
+
+    expect(actions.setRegion(region)).toEqual(expectedAction);
   });
 });
