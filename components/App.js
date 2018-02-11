@@ -1,44 +1,47 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import ClusteredMapView from 'react-native-map-clustering';
 import { MapView } from 'expo';
 import AutocompleteSearchBar from './AutocompleteSearchBar';
-import MapMarker from './MapMarker';
+import CustomCallout from './CustomCallout';
 
-const homeMarker = {
-  name: 'My House',
-  isSaved: true,
-  coords: {
-    latitude: 34.109520,
-    longitude: -118.330652,
-  },
+const DEFAULT_REGION = {
+  latitude: 34.109520,
+  longitude: -118.330652,
+  latitudeDelta: 0.0922,
+  longitudeDelta: 0.0421,
 };
-const DEFAULT_LAT_DELTA = 0.0922;
-const DEFAULT_LONG_DELTA = 0.0421;
 
 class App extends React.Component {
   constructor(props) {
     super(props);
 
     this.renderMarker = this.renderMarker.bind(this);
+    this.renderMarkers = this.renderMarkers.bind(this);
   }
 
+  // Extracted this into its own component but for some reason imported markers aren't working with react-native-map-clustering
   renderMarker(marker, index) {
     return (
-      <MapMarker marker={marker} key={index} />
+      <MapView.Marker coordinate={marker.coordinate} key={index}>
+        <CustomCallout marker={marker} onSavePress={this.props.saveMarker}/>
+      </MapView.Marker>
     );
   }
 
+  renderMarkers() {
+    const { selectedMarker, savedMarkers } = this.props;
+    const markers = savedMarkers.map(this.renderMarker);
+
+    return selectedMarker ? markers.concat(this.renderMarker(selectedMarker, Math.random())) : markers;
+  }
+
   render() {
-    const { selectedMarker, savedMarkers, selectMarker, saveMarker } = this.props;
+    const { selectedMarker, selectMarker } = this.props;
 
     const currentRegion = selectedMarker
-      ? {
-          ...selectedMarker.coordinate,
-          latitudeDelta: DEFAULT_LAT_DELTA,
-          longitudeDelta: DEFAULT_LONG_DELTA,
-        }
-      : undefined;
+      ? { ...DEFAULT_REGION, ...selectedMarker.coordinate } : DEFAULT_REGION;
 
     return (
       <View style={styles.container}>
@@ -48,12 +51,9 @@ class App extends React.Component {
         </View>
 
         <View style={styles.mapContainer}>
-          <MapView style={{ flex: 1 }} showsUserLocation={true} region={currentRegion}>
-            {savedMarkers.map(this.renderMarker)}
-            {selectedMarker &&
-              (<MapMarker marker={selectedMarker} onSavePress={saveMarker} showCallout={true} />)
-            }
-          </MapView>
+          <ClusteredMapView style={{ flex: 1 }} showsUserLocation={true} region={currentRegion}>
+            {this.renderMarkers()}
+          </ClusteredMapView>
         </View>
 
       </View>
