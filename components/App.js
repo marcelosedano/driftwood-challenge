@@ -1,12 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, View } from 'react-native';
+import { Button, Keyboard, StyleSheet, Text, View } from 'react-native';
 import ClusteredMapView from 'react-native-map-clustering';
 import { MapView } from 'expo';
 
-import AutocompleteSearchBar from './AutocompleteSearchBar';
-import CustomCallout from './CustomCallout';
+import Header from './Header';
+import SearchBar from './SearchBar';
+import ModeSelector from './ModeSelector';
 import PreviewCard from './PreviewCard';
+import SavedList from './SavedList';
 import { createMarker, getClusterRegion } from '../utils';
 
 class App extends React.Component {
@@ -18,6 +20,7 @@ class App extends React.Component {
     this.handleSearchBarPress = this.handleSearchBarPress.bind(this);
     this.handleMarkerPress = this.handleMarkerPress.bind(this);
     this.handleClusterPress = this.handleClusterPress.bind(this);
+    this.handleListItemPress = this.handleListItemPress.bind(this);
   }
 
   handleSearchBarPress(placeDetails) {
@@ -25,6 +28,13 @@ class App extends React.Component {
     this.props.selectMarker(marker);
     this.props.setRegion(marker.coordinate);
     this.props.showPreviewCard();
+  }
+
+  handleListItemPress(marker) {
+    this.props.selectMarker(marker);
+    this.props.showPreviewCard();
+    this.props.setRegion(marker.coordinate);
+    this.props.selectMode('search');
   }
 
   handleMarkerPress(marker) {
@@ -46,10 +56,8 @@ class App extends React.Component {
         key={index}
         title={marker.name}
         coordinate={marker.coordinate}
-        image={require('../static/assets/pin.png')}
         onSelect={() => this.handleMarkerPress(marker)}
-        onDeselect={this.props.hidePreviewCard}
-      />
+        onDeselect={this.props.hidePreviewCard} />
     );
   }
 
@@ -63,14 +71,31 @@ class App extends React.Component {
   }
 
   render() {
-    const { currentRegion, selectedMarker, shouldShowPreviewCard, saveMarker, setRegion } = this.props;
+    const {
+      currentMode,
+      currentRegion,
+      selectedMarker,
+      savedMarkers,
+      isPreviewCardOpen,
+      selectMode,
+      saveMarker,
+      setRegion
+    } = this.props;
+    Keyboard.dismiss(); // Hack for weird keyboard dismissal behavior
 
     return (
       <View style={styles.container}>
 
+        <Header />
+
         <View style={styles.searchContainer}>
-          <AutocompleteSearchBar onPress={this.handleSearchBarPress} />
+          <SearchBar
+            displayList={!selectedMarker}
+            onFocus={() => selectMode('search')}
+            onPress={this.handleSearchBarPress} />
         </View>
+
+        <ModeSelector mode={currentMode} onModeSelect={selectMode} />
 
         <View style={styles.mapContainer}>
           <ClusteredMapView
@@ -78,14 +103,17 @@ class App extends React.Component {
             ref={r => this.mapView = r}
             region={currentRegion}
             onRegionChangeComplete={setRegion}
-            onClusterPress={this.handleClusterPress}
-          >
+            onClusterPress={this.handleClusterPress}>
             {this.renderMarkers()}
           </ClusteredMapView>
         </View>
 
-        {shouldShowPreviewCard && (
+        {isPreviewCardOpen && (
           <PreviewCard marker={selectedMarker} onSavePress={saveMarker} />
+        )}
+
+        {currentMode === 'saved' && (
+          <SavedList savedMarkers={savedMarkers} onPress={this.handleListItemPress} />
         )}
 
       </View>
@@ -95,7 +123,8 @@ class App extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 20 // temp fix to pad status bar (create separate component?)
+    paddingTop: 20,
+    height: '100%',
   },
 
   mapContainer: {
@@ -103,19 +132,20 @@ const styles = StyleSheet.create({
   },
 
   searchContainer: {
-    paddingTop: 20,
-    height: 200,
-    position: 'absolute',
+    marginTop: 70,
     width: '100%',
+    position: 'absolute',
     zIndex: 10,
   },
 });
 
 App.propTypes = {
+  currentMode: PropTypes.string,
   currentRegion: PropTypes.object,
   selectedMarker: PropTypes.object,
   savedMarkers: PropTypes.array.isRequired,
-  shouldShowPreviewCard: PropTypes.bool.isRequired,
+  isPreviewCardOpen: PropTypes.bool.isRequired,
+  selectMode: PropTypes.func.isRequired,
   selectMarker: PropTypes.func.isRequired,
   deselectMarker: PropTypes.func.isRequired,
   saveMarker: PropTypes.func.isRequired,

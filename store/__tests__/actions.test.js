@@ -2,6 +2,16 @@ import * as actions from '../actions';
 import * as types from '../actionTypes';
 
 describe('Actions', () => {
+  it('should create an action to select a mode', () => {
+    const mode = 'search';
+    const expectedAction = {
+      type: types.SELECT_MODE,
+      mode
+    };
+
+    expect(actions.selectMode(mode)).toEqual(expectedAction);
+  });
+
   it('should create an action to select a marker', () => {
     const marker = {
       name: 'Hollywood Bowl',

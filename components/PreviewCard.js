@@ -1,9 +1,28 @@
 import React from 'react';
-import { Button, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Animated, Button, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { getPlaceImageURI } from '../utils';
 
-const PreviewCard = (props) => {
-  const renderButton = isSaved => {
+class PreviewCard extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.renderButton = this.renderButton.bind(this);
+    this.state = {
+      height: new Animated.Value(0),
+    };
+  }
+
+  componentDidMount() {
+    Animated.timing(
+      this.state.height,
+      {
+        toValue: 180,
+        duration: 500,
+      }
+    ).start();
+  }
+
+  renderButton(isSaved) {
     const buttonColor = isSaved ? '#bbd5f0' : '#5698db';
     const buttonText = isSaved ? 'Saved' : 'Save Place';
 
@@ -12,27 +31,31 @@ const PreviewCard = (props) => {
         <TouchableOpacity
           style={[styles.button, { backgroundColor: buttonColor }]}
           disabled={isSaved}
-          onPress={() => props.onSavePress(props.marker)}
+          onPress={() => this.props.onSavePress(this.props.marker)}
         >
           <Text style={styles.buttonText}>{buttonText}</Text>
         </TouchableOpacity>
       </View>
     );
-  };
+  }
 
-  return (
-    <View style={styles.container}>
-      <View style={styles.imageContainer}>
-        <Image style={styles.image} source={{uri: getPlaceImageURI(props.marker.photoReference)}} />
-      </View>
-      <View style={styles.detailsContainer}>
-        <Text style={styles.nameText}>{props.marker.name}</Text>
-        <Text>{props.marker.address}</Text>
-        <Text>{props.marker.phoneNumber}</Text>
-        {renderButton(props.marker.isSaved)}
-      </View>
-    </View>
-  );
+  render() {
+    const containerStyle = [styles.container, { height: this.state.height }];
+
+    return (
+      <Animated.View style={containerStyle}>
+        <View style={styles.imageContainer}>
+          <Image style={styles.image} source={{uri: getPlaceImageURI(this.props.marker.photoReference)}} />
+        </View>
+        <View style={styles.detailsContainer}>
+          <Text style={styles.nameText}>{this.props.marker.name}</Text>
+          <Text>{this.props.marker.address}</Text>
+          <Text>{this.props.marker.phoneNumber}</Text>
+          {this.renderButton(this.props.marker.isSaved)}
+        </View>
+      </Animated.View>
+    );
+  }
 };
 
 const styles = StyleSheet.create({
@@ -43,7 +66,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     position: 'absolute',
     bottom: 0,
-    height: 180,
+    height: 0,
     width: '100%',
     shadowOpacity: 0.1,
     shadowRadius: 5,
@@ -76,6 +99,7 @@ const styles = StyleSheet.create({
 
   buttonText: {
     color: 'white',
+    fontWeight: 'bold',
   },
 
   nameText: {

@@ -1,14 +1,40 @@
-import reducer, { DEFAULT_REGION } from '../reducer';
+import reducer, { INITIAL_REGION } from '../reducer';
 import * as types from '../actionTypes';
 
 describe('Reducer', () => {
   it('should return the initial state', () => {
     expect(reducer(undefined, {})).toEqual(
       {
+        currentMode: 'search',
         selectedMarker: null,
         savedMarkers: [],
-        currentRegion: DEFAULT_REGION,
-        shouldShowPreviewCard: false,
+        currentRegion: INITIAL_REGION,
+        isPreviewCardOpen: false,
+      }
+    );
+  });
+
+  it('should handle SELECT_MODE', () => {
+    const state = {
+      currentMode: 'search',
+      selectedMarker: null,
+      savedMarkers: [],
+      currentRegion: INITIAL_REGION,
+      isPreviewCardOpen: false,
+    };
+
+    expect(
+      reducer(state, {
+        type: types.SELECT_MODE,
+        mode: 'saved',
+      })
+    ).toEqual(
+      {
+        currentMode: 'saved',
+        selectedMarker: null,
+        savedMarkers: [],
+        currentRegion: INITIAL_REGION,
+        isPreviewCardOpen: false,
       }
     );
   });
@@ -31,6 +57,7 @@ describe('Reducer', () => {
       })
     ).toEqual(
       {
+        currentMode: 'search',
         selectedMarker: {
           name: 'Hollywood Bowl',
           isSaved: false,
@@ -43,14 +70,15 @@ describe('Reducer', () => {
           photoReference: 'abcdefg',
         },
         savedMarkers: [],
-        currentRegion: DEFAULT_REGION,
-        shouldShowPreviewCard: false,
+        currentRegion: INITIAL_REGION,
+        isPreviewCardOpen: false,
       }
     );
   });
 
   it('should handle SELECT_MARKER for existing state', () => {
     const state = {
+      currentMode: 'search',
       selectedMarker: {
         name: 'Hollywood Bowl',
         isSaved: false,
@@ -69,7 +97,7 @@ describe('Reducer', () => {
         latitudeDelta: 5,
         longitudeDelta: -15,
       },
-      shouldShowPreviewCard: false,
+      isPreviewCardOpen: false,
     };
 
     expect(
@@ -89,6 +117,7 @@ describe('Reducer', () => {
       })
     ).toEqual(
       {
+        currentMode: 'search',
         selectedMarker: {
           name: 'Grauman\'s Chinese Theater',
           isSaved: true,
@@ -107,13 +136,14 @@ describe('Reducer', () => {
           latitudeDelta: 5,
           longitudeDelta: -15,
         },
-        shouldShowPreviewCard: false,
+        isPreviewCardOpen: false,
       }
     );
   });
 
   it('should handle DESELECT_MARKER', () => {
     const state = {
+      currentMode: 'search',
       selectedMarker: {
         name: 'Hollywood Bowl',
         isSaved: false,
@@ -132,7 +162,7 @@ describe('Reducer', () => {
         latitudeDelta: 5,
         longitudeDelta: -15,
       },
-      shouldShowPreviewCard: false,
+      isPreviewCardOpen: false,
     };
 
     expect(
@@ -141,6 +171,7 @@ describe('Reducer', () => {
       })
     ).toEqual(
       {
+        currentMode: 'search',
         selectedMarker: null,
         savedMarkers: [],
         currentRegion: {
@@ -149,13 +180,14 @@ describe('Reducer', () => {
           latitudeDelta: 5,
           longitudeDelta: -15,
         },
-        shouldShowPreviewCard: false,
+        isPreviewCardOpen: false,
       }
     );
   });
 
   it('should handle SAVE_MARKER for existing state', () => {
     const state = {
+      currentMode: 'search',
       selectedMarker: {
         name: 'Grauman\'s Chinese Theater',
         isSaved: false,
@@ -180,8 +212,8 @@ describe('Reducer', () => {
           photoReference: 'abcdefg',
         }
       ],
-      currentRegion: DEFAULT_REGION,
-      shouldShowPreviewCard: false,
+      currentRegion: INITIAL_REGION,
+      isPreviewCardOpen: false,
     };
 
     expect(
@@ -201,6 +233,7 @@ describe('Reducer', () => {
       })
     ).toEqual(
       {
+        currentMode: 'search',
         selectedMarker: {
           name: 'Grauman\'s Chinese Theater',
           isSaved: true,
@@ -236,8 +269,8 @@ describe('Reducer', () => {
             photoReference: 'hijklmn',
           }
         ],
-        currentRegion: DEFAULT_REGION,
-        shouldShowPreviewCard: false,
+        currentRegion: INITIAL_REGION,
+        isPreviewCardOpen: false,
       }
     );
   });
@@ -255,6 +288,7 @@ describe('Reducer', () => {
       })
     ).toEqual(
       {
+        currentMode: 'search',
         selectedMarker: null,
         savedMarkers: [],
         currentRegion: {
@@ -263,13 +297,14 @@ describe('Reducer', () => {
           latitudeDelta: 0.9876,
           longitudeDelta: 0.5432,
         },
-        shouldShowPreviewCard: false,
+        isPreviewCardOpen: false,
       }
     );
   });
 
   it('should handle SET_REGION for existing state', () => {
     const state = {
+      currentMode: 'search',
       selectedMarker: {
         name: 'Hollywood Bowl',
         isSaved: false,
@@ -288,7 +323,7 @@ describe('Reducer', () => {
         latitudeDelta: 5,
         longitudeDelta: -15,
       },
-      shouldShowPreviewCard: false,
+      isPreviewCardOpen: false,
     };
 
     expect(
@@ -303,6 +338,7 @@ describe('Reducer', () => {
       })
     ).toEqual(
       {
+        currentMode: 'search',
         selectedMarker: {
           name: 'Hollywood Bowl',
           isSaved: false,
@@ -321,17 +357,18 @@ describe('Reducer', () => {
           latitudeDelta: 0.9876,
           longitudeDelta: 0.5432,
         },
-        shouldShowPreviewCard: false,
+        isPreviewCardOpen: false,
       }
     );
   });
 
   it('should handle SHOW_PREVIEW_CARD', () => {
     const state = {
+      currentMode: 'search',
       selectedMarker: null,
       savedMarkers: [],
-      currentRegion: DEFAULT_REGION,
-      shouldShowPreviewCard: false,
+      currentRegion: INITIAL_REGION,
+      isPreviewCardOpen: false,
     };
 
     expect(
@@ -340,20 +377,22 @@ describe('Reducer', () => {
       })
     ).toEqual(
       {
+        currentMode: 'search',
         selectedMarker: null,
         savedMarkers: [],
-        currentRegion: DEFAULT_REGION,
-        shouldShowPreviewCard: true,
+        currentRegion: INITIAL_REGION,
+        isPreviewCardOpen: true,
       }
     );
   });
 
   it('should handle HIDE_PREVIEW_CARD', () => {
     const state = {
+      currentMode: 'search',
       selectedMarker: null,
       savedMarkers: [],
-      currentRegion: DEFAULT_REGION,
-      shouldShowPreviewCard: true,
+      currentRegion: INITIAL_REGION,
+      isPreviewCardOpen: true,
     };
 
     expect(
@@ -362,10 +401,11 @@ describe('Reducer', () => {
       })
     ).toEqual(
       {
+        currentMode: 'search',
         selectedMarker: null,
         savedMarkers: [],
-        currentRegion: DEFAULT_REGION,
-        shouldShowPreviewCard: false,
+        currentRegion: INITIAL_REGION,
+        isPreviewCardOpen: false,
       }
     );
   });

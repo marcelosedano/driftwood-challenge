@@ -8,12 +8,14 @@ import * as actions from './store/actions';
 import App from './components/App';
 
 const mapStateToProps = state => ({
+  currentMode: state.currentMode,
   currentRegion: state.currentRegion,
   selectedMarker: state.selectedMarker,
   savedMarkers: state.savedMarkers,
-  shouldShowPreviewCard: state.shouldShowPreviewCard,
+  isPreviewCardOpen: state.isPreviewCardOpen,
 });
 const mapDispatchToProps = {
+  selectMode: actions.selectMode,
   setRegion: actions.setRegion,
   selectMarker: actions.selectMarker,
   deselectMarker: actions.deselectMarker,

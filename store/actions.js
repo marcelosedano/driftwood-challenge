@@ -1,5 +1,10 @@
 import * as types from './actionTypes';
 
+const selectMode = mode => ({
+  type: types.SELECT_MODE,
+  mode,
+});
+
 const selectMarker = marker => ({
   type: types.SELECT_MARKER,
   marker,
@@ -31,6 +36,7 @@ const hidePreviewCard = () => ({
 });
 
 export {
+  selectMode,
   selectMarker,
   deselectMarker,
   saveMarker,
