@@ -1,3 +1,6 @@
 export const SELECT_MARKER = 'SELECT_MARKER';
+export const DESELECT_MARKER = 'DESELECT_MARKER';
 export const SAVE_MARKER = 'SAVE_MARKER';
 export const SET_REGION = 'SET_REGION';
+export const SHOW_PREVIEW_CARD = 'SHOW_PREVIEW_CARD';
+export const HIDE_PREVIEW_CARD = 'HIDE_PREVIEW_CARD';

@@ -11,11 +11,15 @@ const mapStateToProps = state => ({
   currentRegion: state.currentRegion,
   selectedMarker: state.selectedMarker,
   savedMarkers: state.savedMarkers,
+  shouldShowPreviewCard: state.shouldShowPreviewCard,
 });
 const mapDispatchToProps = {
   setRegion: actions.setRegion,
   selectMarker: actions.selectMarker,
+  deselectMarker: actions.deselectMarker,
   saveMarker: actions.saveMarker,
+  showPreviewCard: actions.showPreviewCard,
+  hidePreviewCard: actions.hidePreviewCard,
 };
 
 const withRedux = connect(mapStateToProps, mapDispatchToProps);

@@ -22,12 +22,14 @@ class App extends React.Component {
   handleSearchBarPress(placeDetails) {
     const marker = createMarker(placeDetails);
     this.props.selectMarker(marker);
+    this.props.showPreviewCard();
   }
 
   handleMarkerPress(marker) {
     if (this.props.selectedMarker !== marker) {
       this.props.selectMarker(marker);
     }
+    this.props.showPreviewCard();
   }
 
   // Extracted this into its own component but for some reason imported markers aren't working with react-native-map-clustering
@@ -38,21 +40,22 @@ class App extends React.Component {
         title={marker.name}
         coordinate={marker.coordinate}
         onSelect={() => this.handleMarkerPress(marker)}
+        onDeselect={this.props.hidePreviewCard}
       />
     );
   }
 
   renderMarkers() {
     const { selectedMarker, savedMarkers } = this.props;
-    const markers = savedMarkers.map(this.renderMarker);
+    const markers = selectedMarker && !selectedMarker.isSaved
+      ? savedMarkers.concat(selectedMarker)
+      : savedMarkers;
 
-    return selectedMarker && !selectedMarker.isSaved
-      ? markers.concat(this.renderMarker(selectedMarker, Math.random()))
-      : markers;
+    return markers.map(this.renderMarker);
   }
 
   render() {
-    const { currentRegion, selectedMarker, saveMarker, setRegion } = this.props;
+    const { currentRegion, selectedMarker, shouldShowPreviewCard, saveMarker, setRegion } = this.props;
 
     return (
       <View style={styles.container}>
@@ -72,7 +75,9 @@ class App extends React.Component {
           </ClusteredMapView>
         </View>
 
-        {selectedMarker && <PreviewCard marker={selectedMarker} onSavePress={saveMarker} />}
+        {shouldShowPreviewCard && (
+          <PreviewCard marker={selectedMarker} onSavePress={saveMarker} />
+        )}
 
       </View>
     );
@@ -101,9 +106,13 @@ App.propTypes = {
   currentRegion: PropTypes.object,
   selectedMarker: PropTypes.object,
   savedMarkers: PropTypes.array.isRequired,
+  shouldShowPreviewCard: PropTypes.bool.isRequired,
   selectMarker: PropTypes.func.isRequired,
+  deselectMarker: PropTypes.func.isRequired,
   saveMarker: PropTypes.func.isRequired,
   setRegion: PropTypes.func.isRequired,
+  showPreviewCard: PropTypes.func.isRequired,
+  hidePreviewCard: PropTypes.func.isRequired,
 };
 
 export default App;

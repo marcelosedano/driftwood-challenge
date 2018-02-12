@@ -25,6 +25,14 @@ describe('Actions', () => {
     expect(actions.selectMarker(marker)).toEqual(expectedAction);
   });
 
+  it('should create an action to deselect a marker', () => {
+    const expectedAction = {
+      type: types.DESELECT_MARKER,
+    };
+
+    expect(actions.deselectMarker()).toEqual(expectedAction);
+  });
+
   it('should create an action to save a marker', () => {
     const marker = {
       name: 'Hollywood Bowl',
@@ -71,5 +79,21 @@ describe('Actions', () => {
     };
 
     expect(actions.setRegion(region)).toEqual(expectedAction);
+  });
+
+  it('should create an action to show the preview card', () => {
+    const expectedAction = {
+      type: types.SHOW_PREVIEW_CARD,
+    };
+
+    expect(actions.showPreviewCard()).toEqual(expectedAction);
+  });
+
+  it('should create an action to hide the preview card', () => {
+    const expectedAction = {
+      type: types.HIDE_PREVIEW_CARD,
+    };
+
+    expect(actions.hidePreviewCard()).toEqual(expectedAction);
   });
 });

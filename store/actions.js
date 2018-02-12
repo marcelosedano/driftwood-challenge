@@ -8,6 +8,10 @@ const selectMarker = marker => ({
   },
 });
 
+const deselectMarker = () => ({
+  type: types.DESELECT_MARKER,
+});
+
 const saveMarker = marker => ({
   type: types.SAVE_MARKER,
   marker: {
@@ -21,8 +25,19 @@ const setRegion = region => ({
   region,
 });
 
+const showPreviewCard = () => ({
+  type: types.SHOW_PREVIEW_CARD,
+});
+
+const hidePreviewCard = () => ({
+  type: types.HIDE_PREVIEW_CARD,
+});
+
 export {
   selectMarker,
+  deselectMarker,
   saveMarker,
   setRegion,
+  showPreviewCard,
+  hidePreviewCard,
 };

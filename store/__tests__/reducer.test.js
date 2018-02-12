@@ -8,6 +8,7 @@ describe('Reducer', () => {
         selectedMarker: null,
         savedMarkers: [],
         currentRegion: DEFAULT_REGION,
+        shouldShowPreviewCard: false,
       }
     );
   });
@@ -56,6 +57,7 @@ describe('Reducer', () => {
           latitudeDelta: 5,
           longitudeDelta: -15,
         },
+        shouldShowPreviewCard: false,
       }
     );
   });
@@ -80,6 +82,7 @@ describe('Reducer', () => {
         latitudeDelta: 5,
         longitudeDelta: -15,
       },
+      shouldShowPreviewCard: false,
     };
 
     expect(
@@ -125,43 +128,49 @@ describe('Reducer', () => {
           latitudeDelta: 23,
           longitudeDelta: -18,
         },
+        shouldShowPreviewCard: false,
       }
     );
   });
 
-  it('should handle SAVE_MARKER for initial state', () => {
+  it('should handle DESELECT_MARKER', () => {
+    const state = {
+      selectedMarker: {
+        name: 'Hollywood Bowl',
+        isSaved: false,
+        coordinate: {
+          latitude: 34.112562,
+          longitude: -118.339106,
+          latitudeDelta: 5,
+          longitudeDelta: -15,
+        },
+        photoReference: 'abcdefg',
+      },
+      savedMarkers: [],
+      currentRegion: {
+        latitude: 34.112562,
+        longitude: -118.339106,
+        latitudeDelta: 5,
+        longitudeDelta: -15,
+      },
+      shouldShowPreviewCard: false,
+    };
+
     expect(
-      reducer(undefined, {
-        type: types.SAVE_MARKER,
-        marker: {
-          name: 'Hollywood Bowl',
-          isSaved: true,
-          coordinate: {
-            latitude: 34.112562,
-            longitude: -118.339106,
-            latitudeDelta: 5,
-            longitudeDelta: -15,
-          },
-          photoReference: 'abcdefg',
-        }
+      reducer(state, {
+        type: types.DESELECT_MARKER,
       })
     ).toEqual(
       {
         selectedMarker: null,
-        savedMarkers: [
-          {
-            name: 'Hollywood Bowl',
-            isSaved: true,
-            coordinate: {
-              latitude: 34.112562,
-              longitude: -118.339106,
-              latitudeDelta: 5,
-              longitudeDelta: -15,
-            },
-            photoReference: 'abcdefg',
-          }
-        ],
-        currentRegion: DEFAULT_REGION,
+        savedMarkers: [],
+        currentRegion: {
+          latitude: 34.112562,
+          longitude: -118.339106,
+          latitudeDelta: 5,
+          longitudeDelta: -15,
+        },
+        shouldShowPreviewCard: false,
       }
     );
   });
@@ -193,6 +202,7 @@ describe('Reducer', () => {
         }
       ],
       currentRegion: DEFAULT_REGION,
+      shouldShowPreviewCard: false,
     };
 
     expect(
@@ -212,7 +222,17 @@ describe('Reducer', () => {
       })
     ).toEqual(
       {
-        selectedMarker: null,
+        selectedMarker: {
+          name: 'Grauman\'s Chinese Theater',
+          isSaved: true,
+          coordinate: {
+            latitude: 34.102378,
+            longitude: -118.340242,
+            latitudeDelta: 23,
+            longitudeDelta: -18,
+          },
+          photoReference: 'hijklmn',
+        },
         savedMarkers: [
           {
             name: 'Hollywood Bowl',
@@ -238,6 +258,7 @@ describe('Reducer', () => {
           }
         ],
         currentRegion: DEFAULT_REGION,
+        shouldShowPreviewCard: false,
       }
     );
   });
@@ -263,6 +284,7 @@ describe('Reducer', () => {
           latitudeDelta: 0.9876,
           longitudeDelta: 0.5432,
         },
+        shouldShowPreviewCard: false,
       }
     );
   });
@@ -287,6 +309,7 @@ describe('Reducer', () => {
         latitudeDelta: 5,
         longitudeDelta: -15,
       },
+      shouldShowPreviewCard: false,
     };
 
     expect(
@@ -319,6 +342,51 @@ describe('Reducer', () => {
           latitudeDelta: 0.9876,
           longitudeDelta: 0.5432,
         },
+        shouldShowPreviewCard: false,
+      }
+    );
+  });
+
+  it('should handle SHOW_PREVIEW_CARD', () => {
+    const state = {
+      selectedMarker: null,
+      savedMarkers: [],
+      currentRegion: DEFAULT_REGION,
+      shouldShowPreviewCard: false,
+    };
+
+    expect(
+      reducer(state, {
+        type: types.SHOW_PREVIEW_CARD,
+      })
+    ).toEqual(
+      {
+        selectedMarker: null,
+        savedMarkers: [],
+        currentRegion: DEFAULT_REGION,
+        shouldShowPreviewCard: true,
+      }
+    );
+  });
+
+  it('should handle HIDE_PREVIEW_CARD', () => {
+    const state = {
+      selectedMarker: null,
+      savedMarkers: [],
+      currentRegion: DEFAULT_REGION,
+      shouldShowPreviewCard: true,
+    };
+
+    expect(
+      reducer(state, {
+        type: types.HIDE_PREVIEW_CARD,
+      })
+    ).toEqual(
+      {
+        selectedMarker: null,
+        savedMarkers: [],
+        currentRegion: DEFAULT_REGION,
+        shouldShowPreviewCard: false,
       }
     );
   });

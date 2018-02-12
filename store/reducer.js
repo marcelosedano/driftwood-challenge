@@ -11,29 +11,48 @@ const initialState = {
   selectedMarker: null,
   savedMarkers: [],
   currentRegion: DEFAULT_REGION,
+  shouldShowPreviewCard: false,
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case types.SELECT_MARKER:
-    console.log('SELECT_MARKER', action.payload.marker);
+    // console.log('SELECT_MARKER', action.payload.marker);
       return {
         ...state,
         selectedMarker: action.payload.marker,
         currentRegion: action.payload.region,
       };
-    case types.SAVE_MARKER:
-      console.log('SAVE_MARKER', action.marker);
+    case types.DESELECT_MARKER:
+      // console.log('DESELECT_MARKER');
       return {
         ...state,
         selectedMarker: null,
+      };
+    case types.SAVE_MARKER:
+      // console.log('SAVE_MARKER', action.marker);
+      return {
+        ...state,
+        selectedMarker: action.marker,
         savedMarkers: [ ...state.savedMarkers, action.marker ],
       };
     case types.SET_REGION:
-      console.log('SET_REGION', action.region);
+      // console.log('SET_REGION', action.region);
       return {
         ...state,
         currentRegion: action.region,
+      };
+    case types.SHOW_PREVIEW_CARD:
+      // console.log('SHOW_PREVIEW_CARD');
+      return {
+        ...state,
+        shouldShowPreviewCard: true,
+      };
+    case types.HIDE_PREVIEW_CARD:
+      // console.log('HIDE_PREVIEW_CARD');
+      return {
+        ...state,
+        shouldShowPreviewCard: false,
       };
     default:
       return state;
