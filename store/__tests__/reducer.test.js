@@ -23,7 +23,10 @@ describe('Reducer', () => {
             coordinate: {
               latitude: 34.112562,
               longitude: -118.339106,
-            }
+              latitudeDelta: 5,
+              longitudeDelta: -15,
+            },
+            photoReference: 'abcdefg',
           },
           region: {
             latitude: 34.112562,
@@ -41,7 +44,10 @@ describe('Reducer', () => {
           coordinate: {
             latitude: 34.112562,
             longitude: -118.339106,
-          }
+            latitudeDelta: 5,
+            longitudeDelta: -15,
+          },
+          photoReference: 'abcdefg',
         },
         savedMarkers: [],
         currentRegion: {
@@ -62,7 +68,10 @@ describe('Reducer', () => {
         coordinate: {
           latitude: 34.112562,
           longitude: -118.339106,
-        }
+          latitudeDelta: 5,
+          longitudeDelta: -15,
+        },
+        photoReference: 'abcdefg',
       },
       savedMarkers: [],
       currentRegion: {
@@ -83,7 +92,10 @@ describe('Reducer', () => {
             coordinate: {
               latitude: 34.102378,
               longitude: -118.340242,
-            }
+              latitudeDelta: 23,
+              longitudeDelta: -18,
+            },
+            photoReference: 'hijklmn',
           },
           region: {
             latitude: 34.102378,
@@ -101,7 +113,10 @@ describe('Reducer', () => {
           coordinate: {
             latitude: 34.102378,
             longitude: -118.340242,
-          }
+            latitudeDelta: 23,
+            longitudeDelta: -18,
+          },
+          photoReference: 'hijklmn',
         },
         savedMarkers: [],
         currentRegion: {
@@ -124,7 +139,10 @@ describe('Reducer', () => {
           coordinate: {
             latitude: 34.112562,
             longitude: -118.339106,
-          }
+            latitudeDelta: 5,
+            longitudeDelta: -15,
+          },
+          photoReference: 'abcdefg',
         }
       })
     ).toEqual(
@@ -137,7 +155,10 @@ describe('Reducer', () => {
             coordinate: {
               latitude: 34.112562,
               longitude: -118.339106,
-            }
+              latitudeDelta: 5,
+              longitudeDelta: -15,
+            },
+            photoReference: 'abcdefg',
           }
         ],
         currentRegion: DEFAULT_REGION,
@@ -153,7 +174,10 @@ describe('Reducer', () => {
         coordinate: {
           latitude: 34.102378,
           longitude: -118.340242,
-        }
+          latitudeDelta: 23,
+          longitudeDelta: -18,
+        },
+        photoReference: 'hijklmn',
       },
       savedMarkers: [
         {
@@ -162,7 +186,10 @@ describe('Reducer', () => {
           coordinate: {
             latitude: 34.112562,
             longitude: -118.339106,
-          }
+            latitudeDelta: 5,
+            longitudeDelta: -15,
+          },
+          photoReference: 'abcdefg',
         }
       ],
       currentRegion: DEFAULT_REGION,
@@ -177,7 +204,10 @@ describe('Reducer', () => {
           coordinate: {
             latitude: 34.102378,
             longitude: -118.340242,
-          }
+            latitudeDelta: 23,
+            longitudeDelta: -18,
+          },
+          photoReference: 'hijklmn',
         }
       })
     ).toEqual(
@@ -190,7 +220,10 @@ describe('Reducer', () => {
             coordinate: {
               latitude: 34.112562,
               longitude: -118.339106,
-            }
+              latitudeDelta: 5,
+              longitudeDelta: -15,
+            },
+            photoReference: 'abcdefg',
           },
           {
             name: 'Grauman\'s Chinese Theater',
@@ -198,7 +231,10 @@ describe('Reducer', () => {
             coordinate: {
               latitude: 34.102378,
               longitude: -118.340242,
-            }
+              latitudeDelta: 23,
+              longitudeDelta: -18,
+            },
+            photoReference: 'hijklmn',
           }
         ],
         currentRegion: DEFAULT_REGION,
@@ -239,14 +275,17 @@ describe('Reducer', () => {
         coordinate: {
           latitude: 34.112562,
           longitude: -118.339106,
-        }
+          latitudeDelta: 5,
+          longitudeDelta: -15,
+        },
+        photoReference: 'abcdefg',
       },
       savedMarkers: [],
       currentRegion: {
-        latitude: 12.345,
-        longitude: -678.901,
-        latitudeDelta: 0.9876,
-        longitudeDelta: 0.5432,
+        latitude: 34.112562,
+        longitude: -118.339106,
+        latitudeDelta: 5,
+        longitudeDelta: -15,
       },
     };
 
@@ -268,7 +307,10 @@ describe('Reducer', () => {
           coordinate: {
             latitude: 34.112562,
             longitude: -118.339106,
-          }
+            latitudeDelta: 5,
+            longitudeDelta: -15,
+          },
+          photoReference: 'abcdefg',
         },
         savedMarkers: [],
         currentRegion: {

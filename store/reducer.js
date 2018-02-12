@@ -16,21 +16,21 @@ const initialState = {
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case types.SELECT_MARKER:
-    // console.log('SELECT_MARKER', action.payload.marker);
+    console.log('SELECT_MARKER', action.payload.marker);
       return {
         ...state,
         selectedMarker: action.payload.marker,
         currentRegion: action.payload.region,
       };
     case types.SAVE_MARKER:
-      // console.log('SAVE_MARKER', action.marker);
+      console.log('SAVE_MARKER', action.marker);
       return {
         ...state,
         selectedMarker: null,
         savedMarkers: [ ...state.savedMarkers, action.marker ],
       };
     case types.SET_REGION:
-      // console.log('SET_REGION', action.region);
+      console.log('SET_REGION', action.region);
       return {
         ...state,
         currentRegion: action.region,

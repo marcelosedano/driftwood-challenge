@@ -3,46 +3,26 @@ import * as types from '../actionTypes';
 
 describe('Actions', () => {
   it('should create an action to select a marker', () => {
-    const placeDetails = {
+    const marker = {
       name: 'Hollywood Bowl',
-      geometry: {
-        location: {
-          lat: 34.112562,
-          lng: -118.339106
-        },
-        viewport: {
-          northeast: {
-            lat: 20,
-            lng: -25
-          },
-          southwest: {
-            lat: 15,
-            lng: -10
-          },
-        }
-      }
+      isSaved: false,
+      coordinate: {
+        latitude: 34.112562,
+        longitude: -118.339106,
+        latitudeDelta: 5,
+        longitudeDelta: -15,
+      },
+      photoReference: 'abcdefg',
     };
     const expectedAction = {
       type: types.SELECT_MARKER,
       payload: {
-        marker: {
-          name: 'Hollywood Bowl',
-          isSaved: false,
-          coordinate: {
-            latitude: 34.112562,
-            longitude: -118.339106,
-          }
-        },
-        region: {
-          latitude: 34.112562,
-          longitude: -118.339106,
-          latitudeDelta: 5,
-          longitudeDelta: -15,
-        },
+        marker,
+        region: marker.coordinate,
       }
     };
 
-    expect(actions.selectMarker(placeDetails)).toEqual(expectedAction);
+    expect(actions.selectMarker(marker)).toEqual(expectedAction);
   });
 
   it('should create an action to save a marker', () => {
@@ -51,7 +31,9 @@ describe('Actions', () => {
       isSaved: false,
       coordinate: {
         latitude: 34.112562,
-        longitude: -118.339106
+        longitude: -118.339106,
+        latitudeDelta: 5,
+        longitudeDelta: -15,
       }
     };
     const expectedAction = {
@@ -62,6 +44,8 @@ describe('Actions', () => {
         coordinate: {
           latitude: 34.112562,
           longitude: -118.339106,
+          latitudeDelta: 5,
+          longitudeDelta: -15,
         }
       }
     };

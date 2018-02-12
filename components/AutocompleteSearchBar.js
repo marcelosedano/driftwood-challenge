@@ -1,15 +1,14 @@
 import React from 'react';
 import { StyleSheet, Text, View} from 'react-native';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-
-const GOOGLE_API_KEY = 'AIzaSyDNOPoAbbXHEwP4lwfJwArVx7BTDCJxqmw';
+import { GOOGLE_API_KEY } from '../constants';
 
 const AutocompleteSearchBar = (props) => (
   <GooglePlacesAutocomplete
-    placeholder='Search'
+    placeholder='Search for businesses...'
     minLength={2} // minimum length of text to search
     returnKeyType={'search'} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
-    listViewDisplayed={false}    // true/false/undefined
+    listViewDisplayed={true}    // true/false/undefined
     fetchDetails={true}
     onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
       // console.log(details);
@@ -39,7 +38,7 @@ const styles = StyleSheet.create({
   },
   textInputContainer: {
     width: '100%',
-    backgroundColor: 'transparent',
+    backgroundColor: 'white',
   },
   textInput: {
     borderWidth: 0.5,
