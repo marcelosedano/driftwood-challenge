@@ -7,7 +7,7 @@ import { MapView } from 'expo';
 import AutocompleteSearchBar from './AutocompleteSearchBar';
 import CustomCallout from './CustomCallout';
 import PreviewCard from './PreviewCard';
-import { createMarker } from '../utils';
+import { createMarker, getClusterRegion } from '../utils';
 
 class App extends React.Component {
   constructor(props) {
@@ -17,11 +17,13 @@ class App extends React.Component {
     this.renderMarkers = this.renderMarkers.bind(this);
     this.handleSearchBarPress = this.handleSearchBarPress.bind(this);
     this.handleMarkerPress = this.handleMarkerPress.bind(this);
+    this.handleClusterPress = this.handleClusterPress.bind(this);
   }
 
   handleSearchBarPress(placeDetails) {
     const marker = createMarker(placeDetails);
     this.props.selectMarker(marker);
+    this.props.setRegion(marker.coordinate);
     this.props.showPreviewCard();
   }
 
@@ -29,7 +31,12 @@ class App extends React.Component {
     if (this.props.selectedMarker !== marker) {
       this.props.selectMarker(marker);
     }
+
     this.props.showPreviewCard();
+  }
+
+  handleClusterPress(markers) {
+    this.props.setRegion(getClusterRegion(markers, this.mapView.state.region));
   }
 
   // Extracted this into its own component but for some reason imported markers aren't working with react-native-map-clustering
@@ -39,6 +46,7 @@ class App extends React.Component {
         key={index}
         title={marker.name}
         coordinate={marker.coordinate}
+        image={require('../static/assets/pin.png')}
         onSelect={() => this.handleMarkerPress(marker)}
         onDeselect={this.props.hidePreviewCard}
       />
@@ -70,6 +78,7 @@ class App extends React.Component {
             ref={r => this.mapView = r}
             region={currentRegion}
             onRegionChangeComplete={setRegion}
+            onClusterPress={this.handleClusterPress}
           >
             {this.renderMarkers()}
           </ClusteredMapView>

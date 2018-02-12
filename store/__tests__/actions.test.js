@@ -16,10 +16,7 @@ describe('Actions', () => {
     };
     const expectedAction = {
       type: types.SELECT_MARKER,
-      payload: {
-        marker,
-        region: marker.coordinate,
-      }
+      marker,
     };
 
     expect(actions.selectMarker(marker)).toEqual(expectedAction);

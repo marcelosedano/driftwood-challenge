@@ -23,7 +23,16 @@ const createMarker = placeDetails => {
   };
 };
 
+// Annoying hack to make react-native-map-clustering sort of work...
+const getClusterRegion = (markers, mapViewRegion) => ({
+  latitude: markers[0].geometry.coordinates[1],
+  longitude: markers[0].geometry.coordinates[0],
+  latitudeDelta: mapViewRegion.latitudeDelta - mapViewRegion.latitudeDelta/1.2,
+  longitudeDelta: mapViewRegion.longitudeDelta - mapViewRegion.longitudeDelta/1.2,
+});
+
 export {
   getPlaceImageURI,
   createMarker,
+  getClusterRegion,
 };

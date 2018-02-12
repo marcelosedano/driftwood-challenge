@@ -2,10 +2,7 @@ import * as types from './actionTypes';
 
 const selectMarker = marker => ({
   type: types.SELECT_MARKER,
-  payload: {
-    marker,
-    region: marker.coordinate,
-  },
+  marker,
 });
 
 const deselectMarker = () => ({

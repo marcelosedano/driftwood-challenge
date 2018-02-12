@@ -17,25 +17,17 @@ describe('Reducer', () => {
     expect(
       reducer(undefined, {
         type: types.SELECT_MARKER,
-        payload: {
-          marker: {
-            name: 'Hollywood Bowl',
-            isSaved: false,
-            coordinate: {
-              latitude: 34.112562,
-              longitude: -118.339106,
-              latitudeDelta: 5,
-              longitudeDelta: -15,
-            },
-            photoReference: 'abcdefg',
-          },
-          region: {
+        marker: {
+          name: 'Hollywood Bowl',
+          isSaved: false,
+          coordinate: {
             latitude: 34.112562,
             longitude: -118.339106,
             latitudeDelta: 5,
             longitudeDelta: -15,
           },
-        }
+          photoReference: 'abcdefg',
+        },
       })
     ).toEqual(
       {
@@ -51,12 +43,7 @@ describe('Reducer', () => {
           photoReference: 'abcdefg',
         },
         savedMarkers: [],
-        currentRegion: {
-          latitude: 34.112562,
-          longitude: -118.339106,
-          latitudeDelta: 5,
-          longitudeDelta: -15,
-        },
+        currentRegion: DEFAULT_REGION,
         shouldShowPreviewCard: false,
       }
     );
@@ -88,24 +75,16 @@ describe('Reducer', () => {
     expect(
       reducer(state, {
         type: types.SELECT_MARKER,
-        payload: {
-          marker: {
-            name: 'Grauman\'s Chinese Theater',
-            isSaved: true,
-            coordinate: {
-              latitude: 34.102378,
-              longitude: -118.340242,
-              latitudeDelta: 23,
-              longitudeDelta: -18,
-            },
-            photoReference: 'hijklmn',
-          },
-          region: {
+        marker: {
+          name: 'Grauman\'s Chinese Theater',
+          isSaved: true,
+          coordinate: {
             latitude: 34.102378,
             longitude: -118.340242,
             latitudeDelta: 23,
             longitudeDelta: -18,
           },
+          photoReference: 'hijklmn',
         }
       })
     ).toEqual(
@@ -123,10 +102,10 @@ describe('Reducer', () => {
         },
         savedMarkers: [],
         currentRegion: {
-          latitude: 34.102378,
-          longitude: -118.340242,
-          latitudeDelta: 23,
-          longitudeDelta: -18,
+          latitude: 34.112562,
+          longitude: -118.339106,
+          latitudeDelta: 5,
+          longitudeDelta: -15,
         },
         shouldShowPreviewCard: false,
       }
